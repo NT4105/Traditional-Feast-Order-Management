@@ -1,64 +1,71 @@
 package controller;
 
-import java.util.Scanner;
 import model.Customer;
 import service.RegisterService;
 import validation.CustomerValidation;
 
-public class RegisterController {
+public class RegisterController extends BaseController {
     private RegisterService registerService;
-    private static CustomerValidation customerValidation;
 
     public RegisterController() {
         this.registerService = new RegisterService();
-        this.customerValidation = new CustomerValidation();
     }
 
     public void registerCustomer() {
-        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n=== Customer Registration ===");
+
         while (true) {
-            System.out.println("Enter customer information:");
+            try {
+                Customer customer = getCustomerInfo();
+                if (customer != null) {
+                    if (registerService.registerCustomer(customer)) {
+                        System.out.println("✓ Customer registered successfully!");
+                        BaseController.hasUnsavedChanges = true;
+                    }
+                }
 
-            System.out.print("Customer ID (Cxxxx/Gxxxx/Kxxxx): ");
-            String customerId = scanner.nextLine().trim();
-            if (!customerValidation.isValidCustomerId(customerId)) {
-                System.out.println("Invalid customer ID. Please try again.");
-                continue;
+                if (confirmBackToMain()) {
+                    break;
+                }
+            } catch (Exception e) {
+                System.out.println("Error during registration: " + e.getMessage());
             }
+        }
+    }
 
-            System.out.print("Customer Name: ");
-            String customerName = scanner.nextLine().trim();
-            if (!customerValidation.isValidCustomerName(customerName)) {
-                System.out.println("Invalid customer name. Please try again.");
-                continue;
-            }
+    private Customer getCustomerInfo() {
+        try {
+            System.out.println("\nEnter customer details:");
 
-            System.out.print("Phone Number: ");
-            String phone = scanner.nextLine().trim();
-            if (!customerValidation.isValidPhone(phone)) {
-                System.out.println("Invalid phone number. Please try again.");
-                continue;
-            }
+            String customerId;
+            do {
+                System.out.print("Customer ID (Cxxxx/Gxxxx/Kxxxx): ");
+                customerId = scanner.nextLine().trim();
+            } while (!CustomerValidation.isValidCustomerId(customerId));
 
-            System.out.print("Email: ");
-            String email = scanner.nextLine().trim();
-            if (!customerValidation.isValidEmail(email)) {
-                System.out.println("Invalid email. Please try again.");
-                continue;
-            }
+            String customerName;
+            do {
+                System.out.print("Customer Name (2-25 characters): ");
+                customerName = scanner.nextLine().trim();
+            } while (!CustomerValidation.isValidCustomerName(customerName));
 
-            Customer customer = new Customer(customerId, customerName, phone, email);
-            if (registerService.registerCustomer(customer)) {
-                System.out.println("Customer registration successful!");
-            } else {
-                System.out.println("Customer registration failed. Please check the information.");
-            }
+            String phone;
+            do {
+                System.out.print("Phone Number (10 digits): ");
+                phone = scanner.nextLine().trim();
+            } while (!CustomerValidation.isValidPhone(phone));
 
-            System.out.print("Do you want to continue registering new customers? (Y/N): ");
-            String choice = scanner.nextLine().trim().toUpperCase();
-            if (choice.equals("N")) {
-                break;
-            }
+            String email;
+            do {
+                System.out.print("Email: ");
+                email = scanner.nextLine().trim();
+            } while (!CustomerValidation.isValidEmail(email));
+
+            return new Customer(customerId, customerName, phone, email);
+
+        } catch (Exception e) {
+            System.out.println("Error collecting customer information: " + e.getMessage());
+            return null;
         }
     }
 }
