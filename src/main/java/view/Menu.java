@@ -22,4 +22,59 @@ public class Menu {
         System.out.println("*********************************************************");
     }
 
+    public void RegisterMenu() {
+        System.out.println("*********************************************************");
+        System.out.println("* [1] Register customer                                  *");
+        System.out.println("* [2] Back to Main Menu                                  *");
+        System.out.println("*********************************************************");
+    }
+
+    public void UpdateMenu() {
+        System.out.println("*********************************************************");
+        System.out.println("* [1] Update customer information                        *");
+        System.out.println("* [2] Back to Main Menu                                  *");
+        System.out.println("*********************************************************");
+    }
+
+    public void SearchMenu() {
+        System.out.println("*********************************************************");
+        System.out.println("* [1] Search for customer information by name            *");
+        System.out.println("* [2] Back to Main Menu                                  *");
+        System.out.println("*********************************************************");
+    }
+
+    public void DisplayMenu() {
+        System.out.println("*********************************************************");
+        System.out.println("* 1. Display feast menus                                *");
+        System.out.println("* 2. Back to Main Menu                                  *");
+        System.out.println("*********************************************************");
+    }
+
+    public void PlaceOrderMenu() {
+        System.out.println("*********************************************************");
+        System.out.println("* [1] Place a feast order                                *");
+        System.out.println("* [2] Back to Main Menu                                  *");
+        System.out.println("*********************************************************");
+    }
+
+    public void UpdateOrderMenu() {
+        System.out.println("*********************************************************");
+        System.out.println("* [1] Update order information                           *");
+        System.out.println("* [2] Back to Main Menu                                  *");
+        System.out.println("*********************************************************");
+    }
+
+    public void SaveDataMenu() {
+        System.out.println("*********************************************************");
+        System.out.println("* [1] Save Data to File                                  *");
+        System.out.println("* [2] Back to Main Menu                                  *");
+        System.out.println("*********************************************************");
+    }
+
+    public void DisplayListsMenu() {
+        System.out.println("*********************************************************");
+        System.out.println("* [1] Display Customers or Order lists                   *");
+        System.out.println("* [2] Back to Main Menu                                  *");
+        System.out.println("*********************************************************");
+    }
 }
