@@ -3,29 +3,37 @@ package controller;
 import model.Customer;
 import service.RegisterService;
 import validation.CustomerValidation;
+import view.Menu;
 
 public class RegisterController extends BaseController {
     private RegisterService registerService;
+    private Menu menu;
 
     public RegisterController() {
         this.registerService = new RegisterService();
+        this.menu = new Menu();
     }
 
     public void registerCustomer() {
         System.out.println("\n=== Customer Registration ===");
 
         while (true) {
-            try {
-                Customer customer = getCustomerInfo();
-                if (customer != null) {
-                    if (registerService.registerCustomer(customer)) {
-                        System.out.println("✓ Customer registered successfully!");
-                        BaseController.hasUnsavedChanges = true;
-                    }
-                }
+            menu.RegisterMenu();
+            int choice = getValidChoice(1, 2);
 
-                if (confirmBackToMain()) {
-                    break;
+            try {
+                switch (choice) {
+                    case 1:
+                        Customer customer = getCustomerInfo();
+                        if (customer != null) {
+                            if (registerService.registerCustomer(customer)) {
+                                System.out.println("✓ Customer registered successfully!");
+                                BaseController.hasUnsavedChanges = true;
+                            }
+                        }
+                        break;
+                    case 2:
+                        return;
                 }
             } catch (Exception e) {
                 System.out.println("Error during registration: " + e.getMessage());
