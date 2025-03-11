@@ -3,22 +3,22 @@ package controller;
 import model.Customer;
 import service.RegisterService;
 import validation.CustomerValidation;
-import view.Menu;
+import view.ViewMenu;
 
 public class RegisterController extends BaseController {
     private RegisterService registerService;
-    private Menu menu;
+    private ViewMenu viewMenu;
 
     public RegisterController() {
         this.registerService = new RegisterService();
-        this.menu = new Menu();
+        this.viewMenu = new ViewMenu();
     }
 
     public void registerCustomer() {
         System.out.println("\n=== Customer Registration ===");
 
         while (true) {
-            menu.RegisterMenu();
+            viewMenu.RegisterMenu();
             int choice = getValidChoice(1, 2);
 
             try {
@@ -29,6 +29,9 @@ public class RegisterController extends BaseController {
                             if (registerService.registerCustomer(customer)) {
                                 System.out.println("✓ Customer registered successfully!");
                                 BaseController.hasUnsavedChanges = true;
+                            }
+                            if (confirmBackToMain()) {
+                                return;
                             }
                         }
                         break;

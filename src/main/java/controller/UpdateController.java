@@ -3,28 +3,31 @@ package controller;
 import model.Customer;
 import service.UpdateService;
 import validation.CustomerValidation;
-import view.Menu;
+import view.ViewMenu;
 
 public class UpdateController extends BaseController {
     private UpdateService updateService;
-    private Menu menu;
+    private ViewMenu viewMenu;
 
     public UpdateController() {
         this.updateService = new UpdateService();
-        this.menu = new Menu();
+        this.viewMenu = new ViewMenu();
     }
 
     public void updateCustomer() {
         System.out.println("\n=== Update Customer Information ===");
 
         while (true) {
-            menu.UpdateMenu();
+            viewMenu.UpdateMenu();
             int choice = getValidChoice(1, 2);
 
             try {
                 switch (choice) {
                     case 1:
                         processUpdate();
+                        if (confirmBackToMain()) {
+                            return;
+                        }
                         break;
                     case 2:
                         return;
