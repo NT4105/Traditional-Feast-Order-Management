@@ -7,8 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class RegisterService {
-    private List<Customer> customers;
-    private Set<String> registeredCustomerIds;
+    private final List<Customer> customers;
+    private final Set<String> registeredCustomerIds;
 
     public RegisterService() {
         this.customers = new ArrayList<>();

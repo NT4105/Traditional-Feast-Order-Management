@@ -1,7 +1,5 @@
 package model;
 
-import java.io.Serializable;
-
 public class Customer {
     private String customerId;
     private String customerName;
