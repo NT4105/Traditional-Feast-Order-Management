@@ -64,4 +64,23 @@ public class CustomerValidation {
         }
         return true;
     }
+
+    public static boolean isValidSearchName(String searchName) {
+        if (searchName.isEmpty()) {
+            System.out.println("Search name cannot be empty!");
+            return false;
+        }
+
+        if (searchName.length() < 2) {
+            System.out.println("Search name must be at least 2 characters!");
+            return false;
+        }
+
+        if (!searchName.matches("^[a-zA-Z]+$")) {
+            System.out.println("Search name can only contain letters!");
+            return false;
+        }
+
+        return true;
+    }
 }

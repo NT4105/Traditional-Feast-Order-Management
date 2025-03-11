@@ -4,7 +4,7 @@ import java.util.List;
 import model.Customer;
 
 public class UpdateService {
-    private RegisterService registerService;
+    private final RegisterService registerService;
 
     public UpdateService() {
         this.registerService = new RegisterService();
