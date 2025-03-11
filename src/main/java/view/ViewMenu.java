@@ -1,6 +1,6 @@
 package view;
 
-public class Menu {
+public class ViewMenu {
     public void MainMenu() {
         System.out.println("*********************************************************");
         System.out.println("*                                                       *");
@@ -43,7 +43,7 @@ public class Menu {
         System.out.println("*********************************************************");
     }
 
-    public void DisplayMenu() {
+    public void DisplayFeastMenus() {
         System.out.println("*********************************************************");
         System.out.println("* 1. Display feast menus                                *");
         System.out.println("* 2. Back to Main Menu                                  *");
