@@ -6,7 +6,8 @@ import model.Customer;
 public class CustomerValidation {
     private static final Pattern CUSTOMER_ID_PATTERN = Pattern.compile("^(C|G|K)\\d{4}$");
     private static final Pattern PHONE_PATTERN = Pattern
-            .compile("^(032|033|034|035|036|037|038|039|081|082|083|084|085|070|076|077|078|079|56|058|059)\\d{7}$");
+            .compile(
+                    "^(086|096|097|098|032|033|034|035|036|037|038|039|088|091|094|083|084|085|081|082|089|090|093|070|079|077|076|078|092|056|058|099|059)\\d{7}$");
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
 
     public static boolean isValidCustomerId(String customerId) {
