@@ -66,15 +66,18 @@ public class ViewMenu {
 
     public void SaveDataMenu() {
         System.out.println("*********************************************************");
-        System.out.println("* [1] Save Data to File                                  *");
-        System.out.println("* [2] Back to Main Menu                                  *");
+        System.out.println("* Save Data to File                                     *");
+        System.out.println("* [1] Save Customer Data                                *");
+        System.out.println("* [2] Save Order Data                                   *");
+        System.out.println("* [3] Save Both                                         *");
+        System.out.println("* [4] Back to Main Menu                                 *");
         System.out.println("*********************************************************");
     }
 
     public void DisplayListsMenu() {
         System.out.println("*********************************************************");
-        System.out.println("* [1] Display Customers or Order lists                   *");
-        System.out.println("* [2] Back to Main Menu                                  *");
+        System.out.println("* [1] Display Customers or Order lists                  *");
+        System.out.println("* [2] Back to Main Menu                                 *");
         System.out.println("*********************************************************");
     }
 }
