@@ -1,0 +1,56 @@
+-J-Duser.language=
+-J-Duser.country=
+@options
+@packages
+@argfile
+-encoding
+'UTF-8'
+-protected
+-source
+'1.8'
+-sourcepath
+'C:/Users/ACER/Documents/LAB211/Traditional-Feast-Order-Management/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2025. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/ACER/Documents/LAB211/Traditional-Feast-Order-Management/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Traditional-Feast-Order-Management 1.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/javase/8/docs/api' 'C:/Users/ACER/Documents/LAB211/Traditional-Feast-Order-Management/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'Traditional-Feast-Order-Management 1.0-SNAPSHOT API'
+controller
+model
+service
+validation
+view
+'C:/Users/ACER/Documents/LAB211/Traditional-Feast-Order-Management/src/main/java/Main.java'
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\src\main\java\Main.java = 1741661151572
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\src\main\java = 1741661139949
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\allclasses-frame.html = 1741870275086
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\allclasses-noframe.html = 1741870275089
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\constant-values.html = 1741870274845
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\deprecated-list.html = 1741870275082
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\help-doc.html = 1741870275105
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\index-all.html = 1741870275077
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\index.html = 1741870275093
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\Main.html = 1741870274396
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\overview-frame.html = 1741870274745
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\overview-summary.html = 1741870275098
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\overview-tree.html = 1741870275048
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\package-frame.html = 1741870274749
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\package-list = 1741870274739
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\package-summary.html = 1741870274762
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\package-tree.html = 1741870274766
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\package-use.html = 1741870275005
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\script.js = 1741870275112
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\serialized-form.html = 1741870274867
+C:\Users\ACER\Documents\LAB211\Traditional-Feast-Order-Management\target\reports\apidocs\stylesheet.css = 1741870275107
