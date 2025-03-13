@@ -23,16 +23,17 @@ public class DisplayMenusController extends BaseController {
             int choice = getValidChoice(1, 2);
 
             try {
-                switch (choice) {
-                    case 1:
+                while (true) {
+                    if (choice == 1) {
                         List<Menu> menuList = displayMenusService.getAllMenus();
                         display.displayMenuList(menuList);
                         if (confirmBackToMain()) {
                             return;
                         }
-                        break;
-                    case 2:
+                    }
+                    if (choice == 2) {
                         return;
+                    }
                 }
             } catch (Exception e) {
                 System.out.println("Error displaying menus: " + e.getMessage());

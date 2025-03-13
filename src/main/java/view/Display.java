@@ -4,8 +4,16 @@ import model.Customer;
 import java.util.List;
 import model.Menu;
 import model.Order;
+import service.PlaceOrderService;
+import java.util.Arrays;
 
 public class Display {
+    private PlaceOrderService placeOrderService;
+
+    public Display() {
+        this.placeOrderService = new PlaceOrderService();
+    }
+
     public void displaySearchResults(List<Customer> customers, String searchName) {
         if (customers.isEmpty()) {
             System.out.println("No one matches the search criteria!");
@@ -13,18 +21,25 @@ public class Display {
         }
 
         System.out.println("Matching Customers: " + searchName);
-        System.out.println("------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------");
         System.out.printf("%-8s | %-20s | %-10s | %-25s\n", "Code", "Customer Name", "Phone", "Email");
-        System.out.println("------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------");
 
         for (Customer customer : customers) {
+            // Split the name into parts and reformat
+            String[] nameParts = customer.getCustomerName().split("\\s+");
+            String lastName = nameParts[nameParts.length - 1];
+            String restOfName = String.join(" ",
+                    Arrays.copyOfRange(nameParts, 0, nameParts.length - 1));
+            String formattedName = lastName + ", " + restOfName;
+
             System.out.printf("%-8s | %-20s | %-10s | %-25s\n",
                     customer.getCustomerId(),
-                    customer.getCustomerName(),
+                    formattedName,
                     customer.getPhone(),
                     customer.getEmail());
         }
-        System.out.println("------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------");
     }
 
     public void displayMenuList(List<Menu> menuList) {
@@ -38,15 +53,20 @@ public class Display {
         System.out.println("----------------------------------------");
 
         for (Menu menu : menuList) {
-            System.out.println("Code        :" + menu.getMenuId());
-            System.out.println("Name        :" + menu.getMenuName());
+            System.out.printf("Code        :%s%n", menu.getMenuId());
+            System.out.printf("Name        :%s%n", menu.getMenuName());
             System.out.printf("Price       : %,d Vnd%n", menu.getPrice());
             System.out.println("Ingredients:");
 
-            // Split ingredients by semicolon and display with bullet points
-            String[] ingredientsList = menu.getIngredients().split(";");
-            for (String ingredient : ingredientsList) {
-                System.out.println("+ " + ingredient.trim());
+            // Split ingredients by # to separate major sections
+            String[] sections = menu.getIngredients().split("#");
+            for (String section : sections) {
+                // Remove any leading/trailing whitespace
+                section = section.trim();
+                if (!section.isEmpty()) {
+                    // Print the section as is, maintaining the + prefix
+                    System.out.println(section);
+                }
             }
             System.out.println("----------------------------------------");
         }
@@ -76,5 +96,41 @@ public class Display {
         System.out.println("----------------------------------------------------------------");
         System.out.printf("Total cost      : %,d Vnd\n", (int) order.getTotalCost());
         System.out.println("----------------------------------------------------------------");
+    }
+
+    public void displayCustomerList(List<Customer> customers) {
+        System.out.println("Customers information:");
+        System.out.println("----------------------------------------------------------------");
+        System.out.printf("%-8s | %-20s | %-10s | %-25s\n", "Code", "Customer Name", "Phone", "Email");
+        System.out.println("----------------------------------------------------------------");
+
+        for (Customer customer : customers) {
+            System.out.printf("%-8s | %-20s | %-10s | %-25s\n",
+                    customer.getCustomerId(),
+                    customer.getCustomerName(),
+                    customer.getPhone(),
+                    customer.getEmail());
+        }
+        System.out.println("----------------------------------------------------------------");
+    }
+
+    public void displayOrderList(List<Order> orders) {
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.printf("%-6s | %-10s | %-10s | %-7s | %-9s | %-6s | %-10s\n",
+                "ID", "Event date", "Customer ID", "Set Menu", "Price", "Tables", "Cost");
+        System.out.println("-------------------------------------------------------------------------");
+
+        for (Order order : orders) {
+            Menu menu = placeOrderService.findMenuById(order.getMenuId());
+            System.out.printf("%-6s | %-10s | %-10s | %-7s | %,9d | %6d | %,10.0f\n",
+                    order.getOrderId(),
+                    order.getEventDate(),
+                    order.getCustomerId(),
+                    order.getMenuId(),
+                    menu.getPrice(),
+                    order.getNumberOfTables(),
+                    order.getTotalCost());
+        }
+        System.out.println("-------------------------------------------------------------------------");
     }
 }
