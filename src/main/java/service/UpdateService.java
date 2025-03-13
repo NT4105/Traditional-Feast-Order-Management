@@ -6,8 +6,8 @@ import model.Customer;
 public class UpdateService {
     private final RegisterService registerService;
 
-    public UpdateService() {
-        this.registerService = new RegisterService();
+    public UpdateService(RegisterService registerService) {
+        this.registerService = registerService;
     }
 
     public Customer findCustomerById(String customerId) {

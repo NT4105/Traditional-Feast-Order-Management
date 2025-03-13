@@ -6,14 +6,15 @@ import view.ViewMenu;
 import java.util.List;
 import model.Customer;
 import validation.CustomerValidation;
+import service.RegisterService;
 
 public class SearchController extends BaseController {
     private SearchService searchService;
     private Display display;
     private ViewMenu viewMenu;
 
-    public SearchController() {
-        this.searchService = new SearchService();
+    public SearchController(RegisterService registerService) {
+        this.searchService = new SearchService(registerService);
         this.display = new Display();
         this.viewMenu = new ViewMenu();
     }
@@ -26,15 +27,16 @@ public class SearchController extends BaseController {
             int choice = getValidChoice(1, 2);
 
             try {
-                switch (choice) {
-                    case 1:
+                while (true) {
+                    if (choice == 1) {
                         processSearch();
                         if (confirmBackToMain()) {
                             return;
                         }
-                        break;
-                    case 2:
+                    }
+                    if (choice == 2) {
                         return;
+                    }
                 }
             } catch (Exception e) {
                 System.out.println("Error during search: " + e.getMessage());

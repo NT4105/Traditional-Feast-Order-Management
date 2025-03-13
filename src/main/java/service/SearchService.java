@@ -8,8 +8,8 @@ import java.util.Arrays;
 public class SearchService {
     private final RegisterService registerService;
 
-    public SearchService() {
-        this.registerService = new RegisterService();
+    public SearchService(RegisterService registerService) {
+        this.registerService = registerService;
     }
 
     public List<Customer> searchCustomersByName(String searchName) {

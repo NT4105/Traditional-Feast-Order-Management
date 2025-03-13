@@ -14,6 +14,10 @@ public class RegisterController extends BaseController {
         this.viewMenu = new ViewMenu();
     }
 
+    public RegisterService getRegisterService() {
+        return registerService;
+    }
+
     public void registerCustomer() {
         System.out.println("\n=== Customer Registration ===");
 
@@ -22,21 +26,22 @@ public class RegisterController extends BaseController {
             int choice = getValidChoice(1, 2);
 
             try {
-                switch (choice) {
-                    case 1:
+                while (true) {
+                    if (choice == 1) {
                         Customer customer = getCustomerInfo();
                         if (customer != null) {
                             if (registerService.registerCustomer(customer)) {
-                                System.out.println("✓ Customer registered successfully!");
+                                System.out.println("Customer registered successfully!");
                                 BaseController.hasUnsavedChanges = true;
                             }
                             if (confirmBackToMain()) {
                                 return;
                             }
                         }
-                        break;
-                    case 2:
+                    }
+                    if (choice == 2) {
                         return;
+                    }
                 }
             } catch (Exception e) {
                 System.out.println("Error during registration: " + e.getMessage());

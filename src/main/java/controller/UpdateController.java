@@ -4,13 +4,14 @@ import model.Customer;
 import service.UpdateService;
 import validation.CustomerValidation;
 import view.ViewMenu;
+import service.RegisterService;
 
 public class UpdateController extends BaseController {
     private UpdateService updateService;
     private ViewMenu viewMenu;
 
-    public UpdateController() {
-        this.updateService = new UpdateService();
+    public UpdateController(RegisterService registerService) {
+        this.updateService = new UpdateService(registerService);
         this.viewMenu = new ViewMenu();
     }
 
@@ -22,15 +23,16 @@ public class UpdateController extends BaseController {
             int choice = getValidChoice(1, 2);
 
             try {
-                switch (choice) {
-                    case 1:
+                while (true) {
+                    if (choice == 1) {
                         processUpdate();
                         if (confirmBackToMain()) {
                             return;
                         }
-                        break;
-                    case 2:
+                    }
+                    if (choice == 2) {
                         return;
+                    }
                 }
             } catch (Exception e) {
                 System.out.println("Error during update: " + e.getMessage());
@@ -48,7 +50,7 @@ public class UpdateController extends BaseController {
 
         Customer customer = updateService.findCustomerById(customerId);
         if (customer == null) {
-            System.out.println("❌ This customer does not exist.");
+            System.out.println("This customer does not exist.");
             return;
         }
 
@@ -86,7 +88,7 @@ public class UpdateController extends BaseController {
         }
 
         if (updateService.updateCustomer(customer)) {
-            System.out.println("✓ Customer information updated successfully!");
+            System.out.println("Customer information updated successfully!");
             BaseController.hasUnsavedChanges = true;
         }
     }

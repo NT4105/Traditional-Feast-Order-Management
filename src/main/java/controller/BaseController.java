@@ -35,9 +35,9 @@ public abstract class BaseController {
             System.out.print("Do you want to continue? (Y/N): ");
             String choice = scanner.nextLine().trim().toUpperCase();
             if (choice.equals("Y")) {
-                return false;
+                return false; // continue in current menu
             } else if (choice.equals("N")) {
-                return true;
+                return true; // return to main menu
             }
             System.out.println("Please enter Y or N!");
         }
