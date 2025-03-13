@@ -28,8 +28,8 @@ public class PlaceOrderController extends BaseController {
         int choice = getValidChoice(1, 2);
 
         try {
-            switch (choice) {
-                case 1:
+            while (true) {
+                if (choice == 1) {
                     // Get and validate customer ID
                     String customerId;
                     Customer customer = null;
@@ -90,12 +90,14 @@ public class PlaceOrderController extends BaseController {
                     System.out.println("Order successfully!");
 
                     display.displayOrderDetails(order, customer, menu);
+
                     if (confirmBackToMain()) {
                         return;
                     }
-                    break;
-                case 2:
+                }
+                if (choice == 2) {
                     return;
+                }
             }
         } catch (Exception e) {
             System.out.println("Error placing order: " + e.getMessage());

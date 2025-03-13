@@ -57,4 +57,15 @@ public class PlaceOrderService {
         orders.add(order);
         return order;
     }
+
+    public Order findOrderById(String orderId) {
+        return orders.stream()
+                .filter(order -> order.getOrderId().equals(orderId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public List<Order> getAllOrders() {
+        return new ArrayList<>(orders);
+    }
 }
