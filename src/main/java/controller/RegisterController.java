@@ -5,6 +5,8 @@ import service.RegisterService;
 import validation.CustomerValidation;
 import view.ViewMenu;
 
+import java.util.List;
+
 public class RegisterController extends BaseController {
     private RegisterService registerService;
     private ViewMenu viewMenu;
@@ -26,22 +28,11 @@ public class RegisterController extends BaseController {
             int choice = getValidChoice(1, 2);
 
             try {
-                while (true) {
-                    if (choice == 1) {
-                        Customer customer = getCustomerInfo();
-                        if (customer != null) {
-                            if (registerService.registerCustomer(customer)) {
-                                System.out.println("Customer registered successfully!");
-                                BaseController.hasUnsavedChanges = true;
-                            }
-                            if (confirmBackToMain()) {
-                                return;
-                            }
-                        }
-                    }
-                    if (choice == 2) {
-                        return;
-                    }
+                if (choice == 1) {
+                    processRegistration();
+                }
+                if (choice == 2) {
+                    return;
                 }
             } catch (Exception e) {
                 System.out.println("Error during registration: " + e.getMessage());
@@ -49,15 +40,59 @@ public class RegisterController extends BaseController {
         }
     }
 
+    private void processRegistration() {
+        Customer customer = getCustomerInfo();
+        if (customer == null) {
+            // Người dùng đã chọn quay lại main menu
+            return;
+        }
+
+        boolean registered = registerService.registerCustomer(customer);
+        if (registered) {
+            System.out.println("Customer registered successfully!");
+            BaseController.hasUnsavedChanges = true;
+        } else {
+            System.out.println("Failed to register customer.");
+        }
+
+        if (confirmBackToMain()) {
+            return;
+        }
+
+        // Gọi lại processRegistration nếu người dùng muốn tiếp tục
+        processRegistration();
+    }
+
     private Customer getCustomerInfo() {
         try {
             System.out.println("\nEnter customer details:");
 
             String customerId;
-            do {
+            while (true) {
                 System.out.print("Customer ID (Cxxxx/Gxxxx/Kxxxx): ");
                 customerId = scanner.nextLine().trim();
-            } while (!CustomerValidation.isValidCustomerId(customerId));
+
+                // Kiểm tra ID hợp lệ
+                if (!CustomerValidation.isValidCustomerId(customerId)) {
+                    continue;
+                }
+
+                // Kiểm tra ID đã tồn tại
+                List<Customer> existingCustomers = registerService.getAllCustomers();
+                if (CustomerValidation.isCustomerIdRegistered(customerId, existingCustomers)) {
+                    System.out.println("Error: Customer ID already exists! Please use a different ID.");
+
+                    // Hỏi người dùng có muốn tiếp tục hay không
+                    System.out.print("Do you want to try another ID? (Y/N): ");
+                    String choice = scanner.nextLine().trim().toUpperCase();
+                    if (choice.equals("N")) {
+                        return null; // Người dùng chọn quay lại main menu
+                    }
+                    continue;
+                }
+
+                break;
+            }
 
             String customerName;
             do {
