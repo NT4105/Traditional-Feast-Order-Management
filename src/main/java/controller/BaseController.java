@@ -7,7 +7,7 @@ import model.Customer;
 public abstract class BaseController {
     protected Scanner scanner;
     protected List<Customer> customers;
-    protected static boolean hasUnsavedChanges = false; //
+    public static boolean hasUnsavedChanges = false; // Đánh dấu có thay đổi chưa lưu
 
     public BaseController() {
         this.scanner = new Scanner(System.in);

@@ -2,6 +2,9 @@ package controller;
 
 import view.ViewMenu;
 import java.util.Scanner;
+import service.RegisterService;
+import service.PlaceOrderService;
+import controller.ReadFileController;
 
 public class MainMenuController extends BaseController {
     private ViewMenu viewMenu;
@@ -14,17 +17,21 @@ public class MainMenuController extends BaseController {
     private SaveDataController saveDataController;
     private DisplayListsController displayListsController;
     private Scanner scanner;
+    private ReadFileController readFileController;
 
     public MainMenuController() {
         this.viewMenu = new ViewMenu();
+        this.readFileController = new ReadFileController();
         this.registerController = new RegisterController();
-        this.updateController = new UpdateController(registerController.getRegisterService());
+        this.updateController = new UpdateController(registerController.getRegisterService(), readFileController);
         this.searchController = new SearchController(registerController.getRegisterService());
-        this.displayMenusController = new DisplayMenusController();
-        this.placeOrderController = new PlaceOrderController();
-        this.updateOrderController = new UpdateOrderController();
-        this.saveDataController = new SaveDataController();
-        this.displayListsController = new DisplayListsController();
+        this.displayMenusController = new DisplayMenusController(registerController.getRegisterService());
+        this.placeOrderController = new PlaceOrderController(registerController.getRegisterService(),
+                readFileController);
+        this.updateOrderController = new UpdateOrderController(registerController.getRegisterService(),
+                placeOrderController.getPlaceOrderService(), readFileController);
+        this.saveDataController = new SaveDataController(registerController.getRegisterService());
+        this.displayListsController = new DisplayListsController(registerController.getRegisterService());
         this.scanner = new Scanner(System.in);
     }
 
@@ -62,7 +69,7 @@ public class MainMenuController extends BaseController {
                     case 9:
                         if (BaseController.hasUnsavedChanges) {
                             System.out.println("\nWarning: You have unsaved changes!");
-                            System.out.println("Do you want to save before exiting? (Y/N): ");
+                            System.out.print("Do you want to save before exiting? (Y/N): ");
                             String response = scanner.nextLine().trim().toUpperCase();
                             if (response.equals("Y")) {
                                 saveDataController.saveData();
