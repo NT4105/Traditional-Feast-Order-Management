@@ -5,15 +5,25 @@ import view.Display;
 import view.ViewMenu;
 import service.DisplayMenusService;
 import java.util.List;
+import service.PlaceOrderService;
+import service.RegisterService;
 
 public class DisplayMenusController extends BaseController {
     private DisplayMenusService displayMenusService;
     private Display display;
     private ViewMenu viewMenu;
+    private RegisterService registerService;
+
+    public DisplayMenusController(RegisterService registerService) {
+        this.registerService = registerService;
+        this.displayMenusService = new DisplayMenusService();
+        this.display = new Display(new PlaceOrderService(registerService));
+        this.viewMenu = new ViewMenu();
+    }
 
     public DisplayMenusController() {
         this.displayMenusService = new DisplayMenusService();
-        this.display = new Display();
+        this.display = new Display(new PlaceOrderService(registerService));
         this.viewMenu = new ViewMenu();
     }
 
