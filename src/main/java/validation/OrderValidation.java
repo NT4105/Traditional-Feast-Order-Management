@@ -3,6 +3,8 @@ package validation;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
+import model.Order;
 
 public class OrderValidation {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -35,5 +37,9 @@ public class OrderValidation {
         }
 
         return true;
+    }
+
+    public static boolean isOrderIdRegistered(String orderId, List<Order> orders) {
+        return orders.stream().anyMatch(o -> o.getOrderId().equals(orderId));
     }
 }

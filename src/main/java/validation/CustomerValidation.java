@@ -2,6 +2,7 @@ package validation;
 
 import java.util.regex.Pattern;
 import model.Customer;
+import java.util.List;
 
 public class CustomerValidation {
     private static final Pattern CUSTOMER_ID_PATTERN = Pattern.compile("^(C|G|K)\\d{4}$");
@@ -83,5 +84,18 @@ public class CustomerValidation {
         }
 
         return true;
+    }
+
+    public static boolean isCustomerIdRegistered(String customerId, List<Customer> customers) {
+        if (customers == null || customers.isEmpty()) {
+            return false;
+        }
+
+        for (Customer customer : customers) {
+            if (customer.getCustomerId().equals(customerId)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
