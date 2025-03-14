@@ -7,15 +7,17 @@ import java.util.Comparator;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import controller.ReadFileController;
+import service.RegisterService;
+import service.PlaceOrderService;
 
 public class DisplayListsService {
     private final RegisterService registerService;
     private final PlaceOrderService placeOrderService;
     private final ReadFileController readFileController;
 
-    public DisplayListsService() {
-        this.registerService = new RegisterService();
-        this.placeOrderService = new PlaceOrderService();
+    public DisplayListsService(RegisterService registerService) {
+        this.registerService = registerService;
+        this.placeOrderService = new PlaceOrderService(registerService);
         this.readFileController = new ReadFileController();
     }
 

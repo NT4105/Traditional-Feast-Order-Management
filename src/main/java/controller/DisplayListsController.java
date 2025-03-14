@@ -6,15 +6,19 @@ import view.Display;
 import view.ViewMenu;
 import service.DisplayListsService;
 import java.util.List;
+import service.RegisterService;
+import service.PlaceOrderService;
 
 public class DisplayListsController extends BaseController {
     private DisplayListsService displayListsService;
     private Display display;
     private ViewMenu viewMenu;
+    private RegisterService registerService;
 
-    public DisplayListsController() {
-        this.displayListsService = new DisplayListsService();
-        this.display = new Display();
+    public DisplayListsController(RegisterService registerService) {
+        this.registerService = registerService;
+        this.displayListsService = new DisplayListsService(registerService);
+        this.display = new Display(new PlaceOrderService(registerService));
         this.viewMenu = new ViewMenu();
     }
 
