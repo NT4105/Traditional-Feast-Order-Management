@@ -11,10 +11,10 @@ public class SaveDataController extends BaseController {
     private PlaceOrderService placeOrderService;
     private ViewMenu viewMenu;
 
-    public SaveDataController() {
+    public SaveDataController(RegisterService registerService) {
         this.saveDataService = new SaveDataService();
-        this.registerService = new RegisterService();
-        this.placeOrderService = new PlaceOrderService();
+        this.registerService = registerService;
+        this.placeOrderService = new PlaceOrderService(registerService);
         this.viewMenu = new ViewMenu();
     }
 
@@ -26,33 +26,22 @@ public class SaveDataController extends BaseController {
             int choice = getValidChoice(1, 4);
 
             try {
-                while (true) {
-                    if (choice == 1) {
+                switch (choice) {
+                    case 1:
                         saveCustomerData();
-                        if (confirmBackToMain())
-                            return;
-                    }
-                    if (choice == 2) {
+                        break;
+                    case 2:
                         saveOrderData();
-                        if (confirmBackToMain())
-                            return;
-                    }
-                    if (choice == 3) {
+                        break;
+                    case 3:
                         saveAllData();
-                        if (confirmBackToMain())
-                            return;
-                    }
-                    if (choice == 4) {
-                        if (BaseController.hasUnsavedChanges) {
-                            System.out.println("Warning: You have unsaved changes!");
-                            System.out.println("Are you sure you want to exit without saving?");
-
-                            if (!confirmBackToMain()) {
-                                continue;
-                            }
-                        }
-                        return;
-                    }
+                        break;
+                    case 4:
+                        return; // Exit to the main menu
+                }
+                // After saving, ask if the user wants to continue
+                if (confirmBackToMain()) {
+                    return; // Exit if the user does not want to continue
                 }
             } catch (Exception e) {
                 System.out.println("Error saving data: " + e.getMessage());

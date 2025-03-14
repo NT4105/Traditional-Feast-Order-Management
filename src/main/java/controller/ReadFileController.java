@@ -17,8 +17,7 @@ public class ReadFileController {
 
     @SuppressWarnings("unchecked")
     public List<Customer> readCustomersFromFile() {
-        try (ObjectInputStream ois = new ObjectInputStream(
-                new FileInputStream(CUSTOMERS_FILE))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(CUSTOMERS_FILE))) {
             return (List<Customer>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             return new ArrayList<>();
@@ -27,8 +26,7 @@ public class ReadFileController {
 
     @SuppressWarnings("unchecked")
     public List<Order> readOrdersFromFile() {
-        try (ObjectInputStream ois = new ObjectInputStream(
-                new FileInputStream(ORDERS_FILE))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ORDERS_FILE))) {
             return (List<Order>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             return new ArrayList<>();

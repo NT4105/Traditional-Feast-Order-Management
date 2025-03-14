@@ -21,6 +21,10 @@ public class SaveDataService {
     }
 
     public boolean saveOrdersToFile(List<Order> orders) {
+        if (orders == null || orders.isEmpty()) {
+            System.out.println("No orders to save.");
+            return false;
+        }
         try (ObjectOutputStream oos = new ObjectOutputStream(
                 new FileOutputStream(ORDERS_FILE))) {
             oos.writeObject(orders);
