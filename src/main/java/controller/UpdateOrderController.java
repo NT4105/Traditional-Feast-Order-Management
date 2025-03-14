@@ -9,18 +9,31 @@ import view.Display;
 import view.ViewMenu;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import service.RegisterService;
+import service.UpdateOrderService;
+import service.RegisterService;
+import service.DisplayMenusService;
+import java.util.List;
+import controller.ReadFileController;
 
 public class UpdateOrderController extends BaseController {
     private PlaceOrderService placeOrderService;
+    private UpdateOrderService updateOrderService;
     private Display display;
     private ViewMenu viewMenu;
     private DisplayMenusController displayMenusController;
+    private RegisterService registerService;
+    private DisplayMenusService displayMenusService;
 
-    public UpdateOrderController() {
-        this.placeOrderService = new PlaceOrderService();
-        this.display = new Display();
+    public UpdateOrderController(RegisterService registerService, PlaceOrderService placeOrderService,
+            ReadFileController readFileController) {
+        this.registerService = registerService;
+        this.placeOrderService = placeOrderService;
+        this.updateOrderService = new UpdateOrderService(placeOrderService, readFileController);
+        this.display = new Display(placeOrderService);
         this.viewMenu = new ViewMenu();
-        this.displayMenusController = new DisplayMenusController();
+        this.displayMenusController = new DisplayMenusController(registerService);
+        this.displayMenusService = new DisplayMenusService();
     }
 
     public void updateOrder() {
@@ -53,7 +66,7 @@ public class UpdateOrderController extends BaseController {
         System.out.print("\nEnter Order ID to update: ");
         String orderId = scanner.nextLine().trim();
 
-        Order order = placeOrderService.findOrderById(orderId);
+        Order order = updateOrderService.findOrderById(orderId);
         if (order == null) {
             System.out.println("This Order does not exist.");
             return;
@@ -76,7 +89,8 @@ public class UpdateOrderController extends BaseController {
 
         // Display available menus before asking for new menu ID
         System.out.println("\nAvailable menus:");
-        displayMenusController.displayFeastMenus();
+        List<Menu> menuList = displayMenusService.getAllMenus();
+        display.displayMenuList(menuList);
 
         System.out.print("Enter new Menu ID (current: " + order.getMenuId() + "): ");
         String newMenuId = scanner.nextLine().trim();
@@ -118,7 +132,12 @@ public class UpdateOrderController extends BaseController {
         Menu updatedMenu = placeOrderService.findMenuById(order.getMenuId());
         display.displayOrderDetails(order, customer, updatedMenu);
 
-        BaseController.hasUnsavedChanges = true;
-        System.out.println("Order updated successfully!");
+        // Lưu thay đổi vào file
+        if (updateOrderService.updateOrder(order)) {
+            System.out.println("Order updated successfully!");
+            BaseController.hasUnsavedChanges = true;
+        } else {
+            System.out.println("Failed to update order!");
+        }
     }
 }
