@@ -8,18 +8,27 @@ import validation.OrderValidation;
 import validation.CustomerValidation;
 import view.Display;
 import view.ViewMenu;
+import service.RegisterService;
+import service.DisplayMenusService;
+import java.util.List;
+import controller.ReadFileController;
 
 public class PlaceOrderController extends BaseController {
     private PlaceOrderService placeOrderService;
     private Display display;
     private DisplayMenusController displayMenusController;
     private ViewMenu viewMenu;
+    private RegisterService registerService;
+    private DisplayMenusService displayMenusService;
+    private ReadFileController readFileController;
 
-    public PlaceOrderController() {
-        this.placeOrderService = new PlaceOrderService();
-        this.display = new Display();
-        this.displayMenusController = new DisplayMenusController();
+    public PlaceOrderController(RegisterService registerService, ReadFileController readFileController) {
+        this.registerService = registerService;
+        this.placeOrderService = new PlaceOrderService(registerService);
+        this.display = new Display(placeOrderService);
+        this.displayMenusController = new DisplayMenusController(registerService);
         this.viewMenu = new ViewMenu();
+        this.displayMenusService = new DisplayMenusService();
     }
 
     public void placeOrder() {
@@ -46,7 +55,8 @@ public class PlaceOrderController extends BaseController {
                     } while (customer == null);
 
                     // Display available menus before asking for menu ID
-                    displayMenusController.displayFeastMenus();
+                    List<Menu> menuList = displayMenusService.getAllMenus();
+                    display.displayMenuList(menuList);
 
                     // Get and validate menu ID
                     String menuId;
@@ -102,5 +112,13 @@ public class PlaceOrderController extends BaseController {
         } catch (Exception e) {
             System.out.println("Error placing order: " + e.getMessage());
         }
+
+        UpdateOrderController updateOrderController = new UpdateOrderController(registerService, placeOrderService,
+                readFileController);
+        updateOrderController.updateOrder();
+    }
+
+    public PlaceOrderService getPlaceOrderService() {
+        return placeOrderService;
     }
 }
