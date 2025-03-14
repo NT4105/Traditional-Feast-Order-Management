@@ -7,6 +7,7 @@ import java.util.List;
 import model.Customer;
 import validation.CustomerValidation;
 import service.RegisterService;
+import service.PlaceOrderService;
 
 public class SearchController extends BaseController {
     private SearchService searchService;
@@ -15,7 +16,7 @@ public class SearchController extends BaseController {
 
     public SearchController(RegisterService registerService) {
         this.searchService = new SearchService(registerService);
-        this.display = new Display();
+        this.display = new Display(new PlaceOrderService(registerService));
         this.viewMenu = new ViewMenu();
     }
 
