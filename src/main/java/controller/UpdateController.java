@@ -5,14 +5,18 @@ import service.UpdateService;
 import validation.CustomerValidation;
 import view.ViewMenu;
 import service.RegisterService;
+import controller.ReadFileController;
+import java.util.List;
 
 public class UpdateController extends BaseController {
     private UpdateService updateService;
     private ViewMenu viewMenu;
+    private ReadFileController readFileController;
 
-    public UpdateController(RegisterService registerService) {
-        this.updateService = new UpdateService(registerService);
+    public UpdateController(RegisterService registerService, ReadFileController readFileController) {
+        this.updateService = new UpdateService(registerService, readFileController);
         this.viewMenu = new ViewMenu();
+        this.readFileController = readFileController;
     }
 
     public void updateCustomer() {
@@ -41,12 +45,16 @@ public class UpdateController extends BaseController {
     }
 
     private void processUpdate() {
-        System.out.print("\nEnter Customer ID to update (Cxxxx/Gxxxx/Kxxxx): ");
-        String customerId = scanner.nextLine().trim();
+        // Đọc danh sách khách hàng từ file
+        List<Customer> customers = readFileController.readCustomersFromFile();
 
-        if (!CustomerValidation.isValidCustomerId(customerId)) {
+        if (customers.isEmpty()) {
+            System.out.println("No customers found in the system.");
             return;
         }
+
+        System.out.print("\nEnter Customer ID to update: ");
+        String customerId = scanner.nextLine().trim();
 
         Customer customer = updateService.findCustomerById(customerId);
         if (customer == null) {
@@ -63,33 +71,72 @@ public class UpdateController extends BaseController {
     }
 
     private void updateCustomerFields(Customer customer) {
-        System.out.print("\nEnter new name (press Enter to keep current): ");
-        String newName = scanner.nextLine().trim();
-        if (!newName.isEmpty()) {
-            if (CustomerValidation.isValidCustomerName(newName)) {
-                customer.setCustomerName(newName);
-            }
-        }
+        // Lưu thông tin hiện tại để so sánh sau này
+        String originalName = customer.getCustomerName();
+        String originalPhone = customer.getPhone();
+        String originalEmail = customer.getEmail();
 
-        System.out.print("Enter new phone (press Enter to keep current): ");
-        String newPhone = scanner.nextLine().trim();
-        if (!newPhone.isEmpty()) {
-            if (CustomerValidation.isValidPhone(newPhone)) {
-                customer.setPhone(newPhone);
-            }
-        }
+        // Cập nhật tên
+        String newName;
+        boolean validName = false;
+        do {
+            System.out.print("Enter new name (press Enter to keep current): ");
+            newName = scanner.nextLine().trim();
 
-        System.out.print("Enter new email (press Enter to keep current): ");
-        String newEmail = scanner.nextLine().trim();
-        if (!newEmail.isEmpty()) {
-            if (CustomerValidation.isValidEmail(newEmail)) {
-                customer.setEmail(newEmail);
+            // Nếu người dùng không nhập gì, giữ nguyên tên hiện tại
+            if (newName.isEmpty()) {
+                newName = originalName;
+                validName = true;
+            } else {
+                // Kiểm tra tính hợp lệ của tên mới
+                validName = CustomerValidation.isValidCustomerName(newName);
             }
-        }
+        } while (!validName);
+        customer.setCustomerName(newName);
 
-        if (updateService.updateCustomer(customer)) {
+        // Cập nhật số điện thoại
+        String newPhone;
+        boolean validPhone = false;
+        do {
+            System.out.print("Enter new phone (press Enter to keep current): ");
+            newPhone = scanner.nextLine().trim();
+
+            // Nếu người dùng không nhập gì, giữ nguyên số điện thoại hiện tại
+            if (newPhone.isEmpty()) {
+                newPhone = originalPhone;
+                validPhone = true;
+            } else {
+                // Kiểm tra tính hợp lệ của số điện thoại mới
+                validPhone = CustomerValidation.isValidPhone(newPhone);
+            }
+        } while (!validPhone);
+        customer.setPhone(newPhone);
+
+        // Cập nhật email
+        String newEmail;
+        boolean validEmail = false;
+        do {
+            System.out.print("Enter new email (press Enter to keep current): ");
+            newEmail = scanner.nextLine().trim();
+
+            // Nếu người dùng không nhập gì, giữ nguyên email hiện tại
+            if (newEmail.isEmpty()) {
+                newEmail = originalEmail;
+                validEmail = true;
+            } else {
+                // Kiểm tra tính hợp lệ của email mới
+                validEmail = CustomerValidation.isValidEmail(newEmail);
+            }
+        } while (!validEmail);
+        customer.setEmail(newEmail);
+
+        // Cập nhật thông tin khách hàng
+        boolean updated = updateService.updateCustomer(customer);
+        if (updated) {
             System.out.println("Customer information updated successfully!");
             BaseController.hasUnsavedChanges = true;
+        } else {
+            System.out.println("Failed to update customer information.");
         }
     }
 }
