@@ -110,11 +110,14 @@ public class Display {
         System.out.println("---------------------------------------------------------------------");
 
         for (Customer customer : customers) {
-            // Split the name into parts and reformat
+            // Split the name into parts
             String[] nameParts = customer.getCustomerName().split("\\s+");
+            // Get the last name (last part)
             String lastName = nameParts[nameParts.length - 1];
+            // Get all parts except the last name
             String restOfName = String.join(" ",
                     Arrays.copyOfRange(nameParts, 0, nameParts.length - 1));
+            // Format as "LastName, RestOfName"
             String formattedName = lastName + ", " + restOfName;
 
             System.out.printf("%-8s | %-25s | %-10s | %-25s\n",
