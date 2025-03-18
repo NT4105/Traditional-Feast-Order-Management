@@ -1,3 +1,5 @@
+package view;
+
 import controller.MainMenuController;
 
 public class Main {
